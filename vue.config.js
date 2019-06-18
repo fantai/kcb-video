@@ -33,23 +33,6 @@ module.exports = {
       favicon16: 'favicon.png',
     },
   },
-  devServer: {
-    proxy: {
-      '/video': {
-        target: 'https://video.fantaiai.com/customer/fantai/kcb60s',
-        pathRewrite: { '^/video': '' },
-        changeOrigin: true,
-      },
-      '/farming-images': {
-        target: 'http://farming-images.fantaiai.com',
-        pathRewrite: { '^/farming-images': '' },
-        changeOrigin: true,
-        headers: {
-          referer: 'http://farming-images.fantaiai.com/',
-        },
-      },
-    },
-  },
   chainWebpack(config) {
     const svgRule = config.module.rule('svg');
     svgRule.uses.clear();
