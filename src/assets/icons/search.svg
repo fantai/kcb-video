@@ -1,0 +1,15 @@
+<svg id="search" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #282828;
+      }
+
+      .cls-2 {
+        fill: #2358ec;
+      }
+    </style>
+  </defs>
+  <path id="路径_199" data-name="路径 199" class="cls-1" d="M7,14a7,7,0,1,1,7-7A7.008,7.008,0,0,1,7,14ZM7,2a5,5,0,1,0,5,5A5.006,5.006,0,0,0,7,2Z"/>
+  <path id="路径_200" data-name="路径 200" class="cls-2" d="M15.707,14.293,13.314,11.9A8.019,8.019,0,0,1,11.9,13.314l2.393,2.393a1,1,0,1,0,1.414-1.414Z"/>
+</svg>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name=viewport content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+    <link rel="icon" href="<%= BASE_URL %>favicon.png">
+    <title>秒懂科创股</title>
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        border: 0;
+      }
+      .loading {
+        position: absolute;
+        margin: auto;
+        left: 0;
+        right: 0;
+        bottom: 50%;
+        width: 96px;
+        height: 96px;
+        background: rgba(0,0,0,0.75);
+        box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+        border-radius: 8px;
+        text-align: center;
+        font-size: 13px;
+        color: white;
+        z-index: 1000;
+      }
+      .loading svg {
+        margin: auto;
+        padding: 20px;
+        width: 24px;
+        height: 24px;
+      }
+      .loading span {
+        display: block;
+        line-height: 10px;
+      }
+      .loading::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255,255,255,0.1);
+        z-index: -1;
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>钒钛&NexTech科创板短视频助力黑科技投资</noscript>
+    <div id="pageLoading" class="loading">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g class="nc-icon-wrapper" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" fill="#0093ff" stroke="#0093ff"><g class="nc-loop_circle-03-24" transform="rotate(226.19912602783438 12 12)"> <circle opacity="0.4" fill="none" stroke="#0093ff" stroke-miterlimit="10" cx="12" cy="12" r="11"/><path data-cap="butt" data-color="color-2" fill="none" stroke-miterlimit="10" d="M12,1 c6.0751324,0,11,4.9248676,11,11"/> <animateTransform attributeType="XML" attributeName="transform" begin="0s" dur="1s" type="rotate" from="0 12 12" to="360 12 12" repeatCount="indefinite"/></g></g></svg>
+    </div>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+    <script>
+      var pageLoading = document.getElementById('pageLoading');
+      window.showLoading = function() {
+        pageLoading.style.display = 'block';
+      };
+      window.hideLoading = function() {
+        pageLoading.style.display = 'none';
+      };
+    </script>
+  </body>
+</html>
