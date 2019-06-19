@@ -10,6 +10,7 @@
     margin: 0;
     padding: 0;
     border: 0;
+    color: #282828;
     background-color: white;
   }
   #app {

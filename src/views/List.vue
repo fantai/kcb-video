@@ -109,13 +109,13 @@
 </script>
 <style lang="less">
   .list-page {
-    padding: 20px 18px;
-    color: #282828;
+    padding: 20px 0;
     .search-box {
       display: flex;
       flex-direction: row;
       align-items: center;
       padding: 13px 16px;
+      margin: 0 18px;
       border: 1px solid #F2F2F2;
       border-radius: 5px;
       * {
@@ -133,7 +133,9 @@
       }
     }
     .video-item {
-      padding: 20px 0 10px;
+      padding: 20px 18px;
+      box-sizing: border-box;
+      border-bottom: 8px solid #F2F2F2;
       video {
         object-fit: fill;
         width: 100%;
@@ -186,29 +188,29 @@
     }
     .list-content {
       header {
-        padding: 20px 0;
+        padding: 20px 18px;
         font-size: 15px;
         font-weight: bold;
         border-bottom: 1px solid #F2F2F2;
       }
       footer {
-        margin-top: 10px;
+        margin-top: 20px;
         color: #BBBBBB;
         text-align: center;
         font-size: 13px;
       }
       .support {
         margin-top: 20px;
-        padding: 14px 0 4px;
+        padding: 14px 0 0;
         border-top: 1px solid #F2F2F2;
         .company {
-          padding: 10px 0 0;
-          line-height: 20px;
+          padding: 6px 0 0;
+          line-height: 18px;
           font-size: 12px;
-          color: #282828;
+          color: #737373;
           label {
             display: block;
-            color: #737373;
+            color: #BBBBBB;
           }
         }
       }
@@ -221,7 +223,7 @@
         width: 50%;
       }
       span {
-        display: inline-block;
+        display: block;
         margin-top: 40px;
         line-height: 28px;
         text-align: center;
