@@ -43,10 +43,12 @@
   import Icon from '@/components/Icon.vue';
   import Video from '@/components/Video.vue';
 
-  const VIDEO_LIST = 'https://video.fantaiai.com/customer/fantai/meta/videos.json';
+  const CUSTOMER = (window.location.href.match(/customer=([^&]+)/) || [])[1] || 'fantai';
+  const VIDEO_LIST = `https://video.fantaiai.com/customer/${CUSTOMER}/meta/videos.json`;
   const ICON_ADDRESS = 'https://video.fantaiai.com/static/compicons/';
   const STATUS = [
-    '终止', '中止', '已受理', '已问询', '上市委会议通过', '提交注册', '注册生效', '已发行',
+    '-', '终止', '中止', '已受理', '已问询', '上市委会议', '上市委会议未通过', '有条件通过', '上市委会议通过',
+    '复审委会议', '复审委会议未通过', '复审委会议通过', '提交注册', '注册结果', '不予注册', '注册生效', '已发行',
   ];
 
   export default {
