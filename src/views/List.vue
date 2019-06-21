@@ -33,7 +33,7 @@
         </div>
       </footer>
     </div>
-    <div v-else class="no-data">
+    <div v-else-if="!loading" class="no-data">
       <img src="@/assets/no-data.png">
       <span>没有找到相关的科创股短视频<br>换个关键词试试</span>
     </div>
@@ -45,6 +45,9 @@
 
   const VIDEO_LIST = 'https://video.fantaiai.com/customer/fantai/meta/videos.json';
   const ICON_ADDRESS = 'https://video.fantaiai.com/static/compicons/';
+  const STATUS = [
+    '终止', '中止', '已受理', '已问询', '上市委会议通过', '提交注册', '注册生效', '已发行',
+  ];
 
   export default {
     filters: {
@@ -59,6 +62,7 @@
         searchInput: '',
         showCount: 10,
         playing: undefined,
+        loading: false,
       };
     },
     computed: {
@@ -69,17 +73,30 @@
           result = list.filter(
             eachItem => eachItem.companyAbbrName.indexOf(searchInput) >= 0
               || eachItem.abbrFirstLetter.toLowerCase().indexOf(searchInput.toLowerCase()) >= 0,
-          );
+          ).sort();
         }
         return result.slice(0, showCount);
       },
     },
+    watch: {
+      loading() {
+        if (this.loading) {
+          window.showLoading();
+        } else {
+          window.hideLoading();
+        }
+      },
+    },
     created() {
+      this.loading = true;
       fetch(VIDEO_LIST)
         .then(res => res.json())
-        .then((list) => { this.list = list; })
+        .then((list) => { this.list = this.sort(list); })
         .catch(() => undefined)
-        .then(() => window.hideLoading());
+        .then(() => { this.loading = false; });
+
+      // 刷新缓存，保证下次打开能得到新内容
+      this.refreshCache(VIDEO_LIST);
     },
     mounted() {
       const scrollElement = document.scrollingElement;
@@ -92,17 +109,10 @@
       });
     },
     methods: {
-      copyData(list) {
-        let result = list;
-        for (let i = 0; i < 10; i += 1) {
-          result = result.concat(list.map((eachData) => {
-            const newObj = { ...eachData };
-            // eslint-disable-next-line
-            newObj.abbrFirstLetter = newObj.abbrFirstLetter + i;
-            return newObj;
-          }));
-        }
-        return result;
+      sort(list) {
+        // eslint-disable-next-line
+        list.forEach(eachData => eachData.statusNo = STATUS.indexOf(eachData.status));
+        return list.sort((d1, d2) => d2.statusNo - d1.statusNo);
       },
     },
   };

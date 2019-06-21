@@ -41,7 +41,9 @@
     computed: {
       poster() {
         const { video, companyAbbrName } = this.item;
-        return video.replace(`${companyAbbrName}.mp4`, `cover_${companyAbbrName}.jpg`);
+        const poster = video.replace(`${companyAbbrName}.mp4`, `cover_${companyAbbrName}.jpg`);
+        this.refreshCache(poster);
+        return poster;
       },
       playing() {
         return this.value === this.item;

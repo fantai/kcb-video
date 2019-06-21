@@ -14,7 +14,7 @@ const bowlInjectScript = `
 
   function refreshCache() {
     // 刷新当前页面缓存
-    return fetch(window.location.href, { headers: { 'cache-control': 'no-cache' } });
+    return fetch(window.location.href, { headers: { 'cache-control': 'max-age=0' } });
   }
 
   function toUrl(url) {
