@@ -14,6 +14,8 @@
     background-color: white;
   }
   #app {
+    height: 100%;
+    overflow-y: visible;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #282828;

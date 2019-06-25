@@ -9,7 +9,7 @@
       <div v-for="item in showList" :key="item.abbrFirstLetter" class="video-item">
         <Video :item="item" v-model="playing"></Video>
         <div class="info">
-          <span class="icon">
+          <span class="icon" :style="item | icon | iconBgColor">
             <img :src="item | icon">
           </span>
           <div class="content">
@@ -19,12 +19,13 @@
           <div class="tag">{{item.csrc}}</div>
         </div>
       </div>
+      <div class="placeholder"></div>
       <footer>
         已展示全部短视频
         <div class="support">
           <div class="company nextech">
             <label>短视频内容及制作服务商：</label>
-            NexTech（北京创造一下文化传播有限公司）
+            NEXTTECH（北京创造一下文化传播有限公司）
           </div>
           <div class="company fantai">
             <label>数据分析及云计算服务商：</label>
@@ -42,6 +43,7 @@
 <script>
   import Icon from '@/components/Icon.vue';
   import Video from '@/components/Video.vue';
+  import { getImageColor } from '@/utils/imgColorUtil';
 
   const CUSTOMER = (window.location.href.match(/customer=([^&]+)/) || [])[1] || 'fantai';
   const VIDEO_LIST = `https://video.fantaiai.com/customer/${CUSTOMER}/meta/videos.json`;
@@ -55,6 +57,12 @@
     filters: {
       icon(item) {
         return `${ICON_ADDRESS + item.companyAbbrName}.png`;
+      },
+      // eslint-disable-next-line no-unused-vars
+      iconBgColor(imgPath) {
+        return {
+          backgroundColor: getImageColor(imgPath),
+        };
       },
     },
     components: { Icon, Video },
@@ -121,12 +129,17 @@
 </script>
 <style lang="less">
   .list-page {
-    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: visible;
+    padding-top: 20px;
+    box-sizing: border-box;
     .search-box {
       display: flex;
       flex-direction: row;
       align-items: center;
-      padding: 13px 16px;
+      padding: 12px 16px;
       margin: 0 18px;
       border: 1px solid #F2F2F2;
       border-radius: 5px;
@@ -140,19 +153,18 @@
       }
       input {
         flex: 1;
+        padding: 0;
+        margin: 0;
+        line-height: 16px;
         outline: none;
         border: 0;
+        font-size: 13px;
       }
     }
     .video-item {
       padding: 20px 18px;
       box-sizing: border-box;
       border-bottom: 8px solid #F2F2F2;
-      video {
-        object-fit: fill;
-        width: 100%;
-        border-radius: 5px;
-      }
       .info {
         margin-top: 8px;
         display: flex;
@@ -160,7 +172,7 @@
         align-items: center;
         white-space: nowrap;
         .icon {
-          padding: 8px;
+          padding: 6px;
           width: 48px;
           min-width: 48px;
           height: 48px;
@@ -199,14 +211,20 @@
       }
     }
     .list-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
       header {
         padding: 20px 18px;
         font-size: 15px;
         font-weight: bold;
         border-bottom: 1px solid #F2F2F2;
       }
+      .placeholder {
+        flex: 1;
+      }
       footer {
-        margin-top: 20px;
+        padding: 20px 0;
         color: #BBBBBB;
         text-align: center;
         font-size: 13px;

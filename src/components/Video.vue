@@ -20,6 +20,7 @@
   import Icon from './Icon.vue';
 
   const WIDTH_HEIGHT_RATIO = 640 / 362;
+  const COVER_ADDRESS = 'https://video.fantaiai.com/static/videocover/kcb60s/';
 
   export default {
     components: { Icon },
@@ -40,8 +41,8 @@
     },
     computed: {
       poster() {
-        const { video, companyAbbrName } = this.item;
-        const poster = video.replace(`${companyAbbrName}.mp4`, `cover_${companyAbbrName}.jpg`);
+        const { companyAbbrName } = this.item;
+        const poster = `${COVER_ADDRESS + companyAbbrName}.jpg`;
         this.refreshCache(poster);
         return poster;
       },
@@ -71,12 +72,14 @@
     .poster {
       img {
         width: 100%;
+        border-radius: 5px;
       }
     }
     video {
       object-fit: fill;
       width: 100%;
       height: 100%;
+      border-radius: 5px;
     }
     .play-btn {
       display: flex;

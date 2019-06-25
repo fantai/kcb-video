@@ -93,7 +93,7 @@ module.exports = class BowlPlugin {
 
           const dependencies = [];
           bowlConfig = cacheResources.map((resource, index) => {
-            const key = `options_${index}`;
+            const key = `kcb_${index}`;
             const result = {
               key: key,
               dependencies: [...dependencies],
