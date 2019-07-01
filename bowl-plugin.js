@@ -22,41 +22,47 @@ const bowlInjectScript = `
     return fetch(url).then(function() {
       window.location.replace(url);
     });
-    // var img = new Image();
-    // img.onload = img.onerror = function() {
-    //   window.location.replace(url);
-    // };
-    // img.src = url;
+  }
+
+  // 加载bowl配置，如果请求远程超时则直接取本地数据，超时时间1秒
+  function fetchBowlConfig() {
+    return new Promise(function(resolve) {
+      window.fetch('./bowl.json')
+        .then(function(res) { return res.json(); })
+        .then(resolve);
+      setTimeout(function() {
+        resolve(BOWL_CONFIG_JSON);
+      }, 1000);
+    });
   }
 
   // 加载bowl.json
-  window.fetch('./bowl.json')
-    .then(function(res) { return res.json(); })
-    .then(function(bowlJSON) {
-      var lastVersion = bowlJSON.version;
+  fetchBowlConfig().then(function(bowlJSON) {
+    var lastVersion = bowlJSON.version;
 
-      // 比较 Major.Minor 版本号，如果不同则修改版本参数后重新加载页面
-      if (minorVersion(version) !== minorVersion(lastVersion)) {
-        var href = window.location.href;
-        var versionParam = 'version=' + lastVersion;
-        var url = href.match(/version=[^&]+/)
-          ? href.replace(/version=[^&]+/, versionParam)
-          : (href + (href.indexOf('?') > 0 ? '&' : '?') + versionParam);
-        refreshCache();
-        return toUrl(url);
-      }
+    // 比较 Major.Minor 版本号，如果不同则修改版本参数后重新加载页面
+    if (minorVersion(version) !== minorVersion(lastVersion)) {
+      var href = window.location.href;
+      var versionParam = 'version=' + lastVersion;
+      var url = href.match(/version=[^&]+/)
+        ? href.replace(/version=[^&]+/, versionParam)
+        : (href + (href.indexOf('?') > 0 ? '&' : '?') + versionParam);
+      refreshCache();
+      return toUrl(url);
+    }
 
-      // 启动bowl
-      var b = new Bowl(); 
-      b.add(bowlJSON.resources);
-      b.inject();
-    });
+    // 启动bowl
+    var b = new Bowl(); 
+    b.add(bowlJSON.resources);
+    b.inject();
+  });
 })();
 `;
 
 module.exports = class BowlPlugin {
   apply(compiler) {
     let bowlConfig;
+    let bowlConfigJSON;
     compiler.hooks.compilation.tap('bowl-plugin', (compilation) => {
       // 没有使用html插件不存在对应的hook
       if (!compilation.hooks.htmlWebpackPluginAlterAssetTags) {
@@ -106,8 +112,13 @@ module.exports = class BowlPlugin {
             }
             return result;
           });
-          // const bowlInitScript = `var b = new Bowl();b.add(${JSON.stringify(bowlConfig)});b.inject();`;
-          [bowlSource, bowlInjectScript].forEach(eachScript => htmlPluginData.body.push({
+
+          bowlConfigJSON = JSON.stringify({
+            version: packageInfo.version,
+            resources: bowlConfig,
+          });
+          const injectScript = bowlInjectScript.replace('BOWL_CONFIG_JSON', bowlConfigJSON);
+          [bowlSource, injectScript].forEach(eachScript => htmlPluginData.body.push({
             tagName: 'script',
             closeTag: true,
             attributes: {
@@ -120,10 +131,6 @@ module.exports = class BowlPlugin {
       });
     });
     compiler.hooks.emit.tap('bowl-plugin', (compilation) => {
-      const bowlConfigJSON = JSON.stringify({
-        version: packageInfo.version,
-        resources: bowlConfig,
-      });
       compilation.assets['bowl.json'] = {
         source: function() { return new Buffer(bowlConfigJSON) },
         size: function() { return Buffer.byteLength(bowlConfigJSON, 'utf8'); }

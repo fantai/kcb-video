@@ -8,7 +8,7 @@ const packageInfo = require('./package.json');
 
 module.exports = {
   productionSourceMap: false,
-  publicPath: isProduction ? '/kcb-video/' : '/',
+  publicPath: isProduction ? '//cdn.fantaiai.com/kcb-video/' : '/',
   configureWebpack: {
     plugins: [
       new webpack.DefinePlugin({
@@ -32,6 +32,7 @@ module.exports = {
       favicon32: 'favicon.png',
       favicon16: 'favicon.png',
     },
+    manifestCrossorigin: true,
   },
   chainWebpack(config) {
     const svgRule = config.module.rule('svg');
