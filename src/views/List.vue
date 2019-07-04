@@ -96,6 +96,9 @@
           window.hideLoading();
         }
       },
+      showList() {
+        this.playing = undefined;
+      },
     },
     created() {
       this.loading = true;
