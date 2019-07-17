@@ -125,7 +125,9 @@
       sort(list) {
         // eslint-disable-next-line
         list.forEach(eachData => eachData.statusNo = STATUS.indexOf(eachData.status));
-        return list.sort((d1, d2) => d2.statusNo - d1.statusNo);
+        return list.sort(
+          (d1, d2) => (d2.statusNo - d1.statusNo) || (d2.dataUpdateDate - d1.dataUpdateDate),
+        );
       },
     },
   };
