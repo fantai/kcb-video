@@ -1,8 +1,10 @@
 <template>
   <div class="page list-page">
-    <div class="search-box">
-      <Icon name="search" colorful></Icon>
-      <input type="text" placeholder="搜索科创股短视频" v-model="searchInput">
+    <div class="search-box-wrapper">
+      <div class="search-box" :class="{ fixed: searchBoxFixed }">
+        <Icon name="search" colorful></Icon>
+        <input type="text" placeholder="搜索科创股短视频" v-model="searchInput">
+      </div>
     </div>
     <div v-if="showList.length > 0" class="list-content">
       <header>短视频列表</header>
@@ -66,6 +68,12 @@
       },
     },
     components: { Icon, Video },
+    props: {
+      intro: {
+        type: Boolean,
+        default: false,
+      },
+    },
     data() {
       return {
         list: [],
@@ -73,6 +81,7 @@
         showCount: 10,
         playing: undefined,
         loading: false,
+        searchBoxFixed: false,
       };
     },
     computed: {
@@ -99,6 +108,11 @@
       showList() {
         this.playing = undefined;
       },
+      intro() {
+        if (this.intro) {
+          this.playing = undefined;
+        }
+      },
     },
     created() {
       this.loading = true;
@@ -112,6 +126,7 @@
       this.refreshCache(VIDEO_LIST);
     },
     mounted() {
+      const searchBox = this.$el.querySelector('.search-box-wrapper');
       const scrollElement = document.scrollingElement;
       window.addEventListener('scroll', () => {
         const { list, showCount } = this;
@@ -119,6 +134,10 @@
         if (scrollTop + offsetHeight > scrollHeight - 20) {
           this.showCount = Math.min(list.length, showCount + 10);
         }
+
+        // 计算search-box位置，判断是否浮动显示
+        const { top } = searchBox.getBoundingClientRect();
+        this.searchBoxFixed = top < 0;
       });
     },
     methods: {
@@ -140,6 +159,9 @@
     overflow-y: visible;
     padding-top: 20px;
     box-sizing: border-box;
+    .search-box-wrapper {
+      height: 42px;
+    }
     .search-box {
       display: flex;
       flex-direction: row;
@@ -148,6 +170,28 @@
       margin: 0 18px;
       border: 1px solid #F2F2F2;
       border-radius: 5px;
+      &.fixed {
+        position: fixed;
+        top: -1px;
+        left: 18px;
+        right: 18px;
+        margin: 0;
+        background-color: white;
+        border-radius: 0;
+        border-color: white;
+        z-index: 5;
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: -18px;
+          right: -18px;
+          background-color: white;
+          box-shadow: 0 0 2px 1px #F2F2F2;
+          z-index: -1;
+        }
+      }
       * {
         vertical-align: middle;
       }
