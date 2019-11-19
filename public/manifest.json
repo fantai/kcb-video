@@ -1,6 +1,6 @@
 {
-  "name": "kcb-video",
-  "short_name": "kcb-video",
+  "name": "秒懂科创股",
+  "short_name": "秒懂科创股",
   "icons": [
     {
       "src": "./favicon.png",
@@ -8,8 +8,8 @@
       "type": "image/png"
     }
   ],
-  "start_url": "./index.html",
+  "start_url": "https://webapp.fantaiai.com/kcb-video/index.html",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#4DBA87"
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff"
 }

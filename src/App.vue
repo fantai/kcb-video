@@ -1,6 +1,7 @@
 <template>
   <div id="app" :style="{ overflowY: intro ? 'hidden' : 'visible' }">
-    <img class="banner" src="@/assets/banner.jpg" @click="showIntro">
+    <img v-if="trial" class="banner" src="@/assets/banner-trial.jpg">
+    <img v-else class="banner" src="@/assets/banner.jpg" @click="showIntro">
     <div v-show="intro" class="intro" @click="hideIntro">
       <div class="mask"></div>
       <div class="card">
@@ -25,6 +26,11 @@
       return {
         intro: false,
       };
+    },
+    computed: {
+      trial() {
+        return this.$route.query.trial === 'true';
+      },
     },
     methods: {
       showIntro() {

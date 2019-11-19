@@ -34,10 +34,5 @@
     "less-loader": "^4.1.0",
     "vue-svg-loader": "^0.12.0",
     "vue-template-compiler": "^2.6.10"
-  },
-  "sideEffects": [
-    "*.less",
-    "*.css",
-    "*.vue"
-  ]
+  }
 }

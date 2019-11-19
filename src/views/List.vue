@@ -4,6 +4,12 @@
       <div class="search-box" :class="{ fixed: searchBoxFixed }">
         <Icon name="search" colorful></Icon>
         <input type="text" placeholder="搜索科创股短视频" v-model="searchInput">
+        <Icon
+          v-show="searchInput"
+          name="clear"
+          class="clear"
+          @click.native="() => searchInput = ''"
+        ></Icon>
       </div>
     </div>
     <div v-if="showList.length > 0" class="list-content">
@@ -77,7 +83,7 @@
     data() {
       return {
         list: [],
-        searchInput: '',
+        searchInput: this.$route.query.search || '',
         showCount: 10,
         playing: undefined,
         loading: false,
@@ -107,6 +113,10 @@
       },
       showList() {
         this.playing = undefined;
+      },
+      searchInput() {
+        // 滚动回页面顶部
+        document.scrollingElement.scrollTop = 0;
       },
       intro() {
         if (this.intro) {
@@ -161,12 +171,14 @@
     box-sizing: border-box;
     .search-box-wrapper {
       height: 42px;
+      min-height: 42px;
     }
     .search-box {
+      position: relative;
       display: flex;
       flex-direction: row;
       align-items: center;
-      padding: 12px 16px;
+      padding: 12px 36px 12px 16px;
       margin: 0 18px;
       border: 1px solid #F2F2F2;
       border-radius: 5px;
@@ -208,6 +220,14 @@
         outline: none;
         border: 0;
         font-size: 13px;
+      }
+      .clear {
+        position: absolute;
+        right: 0;
+        margin-right: 0;
+        padding: 10px;
+        color: gray;
+        font-size: 20px;
       }
     }
     .video-item {
